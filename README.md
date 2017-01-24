@@ -4,7 +4,7 @@
 ## PhoneGap App
 APP desarrollada a partir de la práctica del MOOC de Miriadax
 
-![alt text](screenshots/screenshot.png "screenshots")
+![alt text](screenshots/screenshot00.png "screenshots")
 
 ### Plugin
 $ cordova plugin add cordova-plugin-file
