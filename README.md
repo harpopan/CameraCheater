@@ -1,2 +1,13 @@
-# CameraCheater1.000
-CameraCheater1.000
+
+
+# CameraCheater
+## PhoneGap App
+APP desarrollada a partir de la práctica del MOOC de Miriadax
+
+![alt text](screenshots/screenshot.png "screenshots")
+
+### Plugin
+$ cordova plugin add cordova-plugin-file
+
+### Ruta por defecto para guardar las fotos editadas
+/storage/emulated/0/Android/data/com.adobe.phonegap./files/
