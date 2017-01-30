@@ -9,45 +9,66 @@ var app = {
   },
 
   iniciaBotones: function() {
+    // Boton Camara
     var buttonAction = document.querySelector('#boton-camara');
     buttonAction.addEventListener('click', function(){
       app.cargarFoto(Camera.PictureSourceType.CAMERA);
     });
 
+    // Boton Reset
     var filterButtons = document.querySelectorAll('.button-filter');
 	  filterButtons[0].addEventListener('click', function(){
-		var canvas = document.querySelector('#foto');
-		canvas.className = "";
-		var context = canvas.getContext('2d');
-		context.putImageData(imageDataOrig, 0, 0);
-    });
-    filterButtons[1].addEventListener('click', function(){
-		var canvas = document.querySelector('#foto');
-		if(!app.hasClass(canvas, 'grey')){
-			app.aplicaFiltro('gray');
-			canvas.className += ' grey';
-		}
-    });
-    filterButtons[2].addEventListener('click', function(){
-		var canvas = document.querySelector('#foto');
-		if(!app.hasClass(canvas, 'negative')){
-			app.aplicaFiltro('negative');
-			canvas.className += ' negative';
-		}
-    });
-    filterButtons[3].addEventListener('click', function(){
-		var canvas = document.querySelector('#foto');
-		if(!app.hasClass(canvas, 'sepia')){
-			app.aplicaFiltro('sepia');
-			canvas.className += ' sepia';
-		}
+		  var canvas = document.querySelector('#foto');
+		  canvas.className = "";
+		  var context = canvas.getContext('2d');
+		  context.putImageData(imageDataOrig, 0, 0);
     });
 
+    // Boton B&N
+    filterButtons[1].addEventListener('click', function(){
+		  var canvas = document.querySelector('#foto');
+		  if(!app.hasClass(canvas, 'grey')){
+			 app.aplicaFiltro('gray');
+			 canvas.className += ' grey';
+		  }
+    });
+
+    // Boton Negativo
+    filterButtons[2].addEventListener('click', function(){
+		  var canvas = document.querySelector('#foto');
+		  if(!app.hasClass(canvas, 'negative')){
+			 app.aplicaFiltro('negative');
+			 canvas.className += ' negative';
+		  }
+    });
+
+    // Boton Sepia
+    filterButtons[3].addEventListener('click', function(){
+		  var canvas = document.querySelector('#foto');
+		  if(!app.hasClass(canvas, 'sepia')){
+			 app.aplicaFiltro('sepia');
+			 canvas.className += ' sepia';
+		  }
+    });
+
+    // Boton Experimental
+    filterButtons[4].addEventListener('click', function(){
+      var canvas = document.querySelector('#foto');
+      if(!app.hasClass(canvas, 'magia')){       
+       // Aqui va el procesamiento del filtro
+       // app.aplicaFiltro('sepia');
+
+       canvas.className += ' magia';
+      }
+    });    
+
+    // Boton Galeria
     var buttonGallery = document.querySelector('#boton-galeria');
     buttonGallery.addEventListener('click', function(){
     app.cargarFoto(Camera.PictureSourceType.PHOTOLIBRARY);
     });
 	
+    // Boton Guardar
   	var buttonSave = document.querySelector('#boton-guardar');
       buttonSave.addEventListener('click', function(){
   		app.guardarFoto();
@@ -103,6 +124,7 @@ var app = {
     context.putImageData(imageData, 0, 0);
   },
   
+  // Para controlar que no repetimos/sobreescribimos el filtro
   hasClass: function(element, cls) {
     return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
   },
@@ -111,12 +133,14 @@ var app = {
 	window.resolveLocalFileSystemURL(cordova.file.externalApplicationStorageDirectory, app.gotFS, app.fail);
   },
 
-  // Sistema de Guardado de archivos
+  // Paquete para el sistema de Guardado de archivos
+
   gotFS: function(fileSystem){
 	var d = new Date();
 	var n = d.getTime();
   var newFileName = n + ".jpg";
 	// var folderApp = "files/"; // Almacenamiento interno\Android\data\com.adobe.phonegap.app\files
+  // Recuerda crear la carpeta a mano
   var folderApp = "/CameraCheater/";
 
 	fileSystem.getFile(folderApp + newFileName, {create:true, exclusive:false}, app.gotFileEntry, app.fail);
@@ -128,7 +152,7 @@ var app = {
   
   gotFileWriter: function(writer){
 	writer.onwriteend = function(evt){
-		navigator.notification.alert('Foto guardada en galería :D', null, 'Guardar', 'Aceptar');
+		navigator.notification.alert('Foto guardada en galería', null, 'Guardar', 'Aceptar');
 	};
 	var canvas = document.getElementById('foto');
 	var dataURL = canvas.toDataURL("image/png");
@@ -145,10 +169,11 @@ var app = {
   
   fail: function(e){
 	console.log('Error: ' + e.code);
-	navigator.notification.alert('Ha ocurrido un error al guardar :(', null, 'Guardar', 'Aceptar');
+	navigator.notification.alert('Ha ocurrido un error al guardar', null, 'Guardar', 'Aceptar');
   },
-
   // Sistema de Guardado de archivos - FIN
+
+  
 };
 
 var imageData;
